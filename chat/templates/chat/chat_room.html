@@ -1,64 +1,16 @@
-<!-- chat/templates/chat/chat_room.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Chat Room</title>
 </head>
 <body>
-    <h1>Chat Room</h1>
-    <div id="messages"></div>
-    <input type="text" id="sender" placeholder="Sender" required>
-    <input type="text" id="receiver" placeholder="Receiver" required>
-    <textarea id="content" placeholder="Type your message"></textarea>
-    <button onclick="sendMessage()">Send Message</button>
-
-    <script>
-        const csrftoken = document.querySelector('[name=csrf-token]').content;
-
-        async function fetchMessages() {
-            const response = await fetch('/api/messages/');
-            const messages = await response.json();
-            const messageDiv = document.getElementById('messages');
-            messageDiv.innerHTML = messages.map(msg => `<p><strong>${msg.sender}</strong> to <strong>${msg.receiver}</strong>: ${msg.content}</p>`).join('');
-        }
-
-        async function sendMessage() {
-            const sender = document.getElementById('sender').value;
-            const receiver = document.getElementById('receiver').value;
-            const content = document.getElementById('content').value;
-
-            try {
-                const response = await fetch('/api/messages/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken,
-                    },
-                    body: JSON.stringify({
-                        sender: sender,
-                        receiver: receiver,
-                        content: content,
-                    }),
-                });
-
-                if (response.ok) {
-                    fetchMessages();  // Refresh messages
-                    document.getElementById('content').value = '';  // Clear input
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData);
-                    alert('Error sending message');
-                }
-            } catch (error) {
-                console.error('Network Error:', error);
-                alert('Network Error: Could not connect to the server.');
-            }
-        }
-
-        // Fetch messages initially
-        fetchMessages();
-    </script>
+    <h1>Welcome to the Chat Room</h1>
+    <div id="chat-window">
+        <!-- Messages will appear here -->
+    </div>
+    <form id="chat-form">
+        <input type="text" id="message-input" placeholder="Type a message...">
+        <button type="submit">Send</button>
+    </form>
 </body>
 </html>

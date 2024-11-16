@@ -39,15 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     
-    'rest_framework',
+   
     'channels',
     'chat',
+    'rest_framework',
 ]
+
 ASGI_APPLICATION = 'chat_app.asgi.application'
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    }
+    },
 }
 
 
@@ -68,7 +71,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],  # Add a base directory here if you have global templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,6 +83,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'chat_app.wsgi.application'
 
